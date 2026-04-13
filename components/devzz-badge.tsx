@@ -1,8 +1,10 @@
 import React from "react";
 
 export function DevzzBadge() {
+  if (process.env.NEXT_PUBLIC_SHOW_DEVZZ_BADGE === "false") return null;
+
   return (
-    <a
+    <
       href="https://vibe.toolzz.ai"
       target="_blank"
       rel="noopener noreferrer"
