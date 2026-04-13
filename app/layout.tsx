@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Toolzz Devzz Start Template",
-  description: "This project is create using Toolzz Devzz AI Agent, try in devzz.toolzz.ai",
+  title: "Toolzz Vibe Start Template",
+  description: "This project is created using Toolzz Vibe AI Agent, try at vibe.toolzz.ai",
 };
 
 export default function RootLayout({
