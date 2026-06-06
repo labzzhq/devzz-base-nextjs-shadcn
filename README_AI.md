@@ -25,7 +25,14 @@ This project includes a curated set of libraries you should actively use when bu
 - **tw-animate-css** (animation presets)
 
 ### Animations
-- **motion** (Framer Motion-compatible animation engine) — use for all interactive animations
+- **motion** (v12+, Framer Motion engine) — **always** import from `"motion/react"`:
+  ```ts
+  import { motion, AnimatePresence } from "motion/react";
+  // or reuse variants from the template:
+  import { motion, fadeIn, defaultTransition } from "@/lib/animations";
+  ```
+  - ❌ **NEVER** `import { motion } from "motion"` — causes `motion is not exported from 'motion'`
+  - ❌ **NEVER** `import from "framer-motion"` — not a direct dependency in this template
 
 ### Forms, Validation & Inputs
 - **react-hook-form**  
@@ -57,7 +64,7 @@ This project includes a curated set of libraries you should actively use when bu
 - Create your own reusable components in `components/`.  
 - Place feature-specific UI inside `app/[feature]/components/`.  
 - Use `"use client"` for components requiring hooks, animations, or browser APIs.  
-- Use **Framer Motion (motion)** for all animations.  
+- Use **motion** (`import { motion } from "motion/react"`) for all animations.  
 - Keep components small, pure, typed, and composable.
 
 ---
@@ -83,18 +90,18 @@ Use `generateMetadata()` for dynamic routes.
 
 ---
 
-## Animation Standards (Framer Motion)
+## Animation Standards (Motion v12)
 
-- Use `motion.div`, `motion.button`, etc.  
-- Default transitions:
+- Import: `import { motion, AnimatePresence } from "motion/react"` (see `lib/animations.ts`).
+- Use `motion.div`, `motion.button`, etc.
+- Default transition (also exported as `defaultTransition`):
   ```ts
   transition={{ duration: 0.25, ease: "easeOut" }}
-````
-
-* Page transitions → fade + slide
-* Modals → scale + fade
-* Elements that move → layout animations
-* Store reusable variants in `lib/animations.ts`.
+  ```
+- Page transitions → fade + slide (`fadeSlideUp` in `lib/animations.ts`)
+- Modals → scale + fade (`scaleIn`)
+- Elements that move → layout animations
+- Reuse variants from `lib/animations.ts` instead of duplicating objects
 
 ---
 
