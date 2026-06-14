@@ -1,0 +1,40 @@
+name: CSB template build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix-lucas-copa, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Build CodeSandbox template snapshot
+        env:
+          CSB_API_KEY: ${{ secrets.CSB_API_KEY }}
+        run: |
+          npx @codesandbox/sdk build . --ports 3000 --ci --vm-build-tier Medium | tee csb-build-output.txt
+          grep -Eo 'pt_[A-Za-z0-9]+' csb-build-output.txt | head -1 > csb-template-id.txt || true
+          echo "=== CSB build output ==="
+          cat csb-build-output.txt
+          if [ -s csb-template-id.txt ]; then
+            echo "Template ID: $(cat csb-template-id.txt)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: csb-nextjs-template-id
+          path: |
+            csb-build-output.txt
+            csb-template-id.txt
